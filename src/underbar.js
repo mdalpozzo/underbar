@@ -139,6 +139,21 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    var results = [];
+
+    if (Array.isArray(collection)) {
+      for (var i = 0; i < collection.length; i++) {
+        iterator(collection[i], i, collection);
+        results.push(iterator(collection[i], i, collection));
+      }
+    } else {
+      for (var i in collection) {
+        iterator(collection[i], i, collection);
+        results.push(iterator(collection[i], i, collection));
+      }
+    }
+
+    return results;
   };
 
   /*
@@ -147,7 +162,7 @@
    * as an example of this.
    */
 
-  // Takes an array of objects and returns and array of the values of
+  // Takes an array of objects and returns an array of the values of
   // a certain property in it. E.g. take an array of people and return
   // an array of just their ages
   _.pluck = function(collection, key) {
