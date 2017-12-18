@@ -89,7 +89,7 @@
       if (test(element)) {
         filteredElements.push(element);
       }
-    })
+    });
 
     return filteredElements;
   };
@@ -104,17 +104,37 @@
       if (!test(element)) {
         rejectedElements.push(element);
       }
-    })
+    });
 
     return rejectedElements;
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    var newList = [];
+    var iteratorList = [];
+
+    if (isSorted && iterator) {
+      _.each(array, function(element) {
+        if (_.indexOf(iteratorList, iterator(element)) === -1) {
+          newList.push(element);
+          iteratorList.push(iterator(element));
+        }
+      });
+    } else {
+      _.each(array, function(element) {
+        if (_.indexOf(newList, element) === -1) {
+          newList.push(element);
+        }
+      });
+    }
+    return newList;
   };
 
 
   // Return the results of applying an iterator to each element.
+
+
   _.map = function(collection, iterator) {
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
