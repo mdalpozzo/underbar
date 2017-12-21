@@ -320,7 +320,7 @@
     return function() {
       if (!alreadyCalled) {
         // TIP: .apply(this, arguments) is the standard way to pass on all of the
-        // infromation from one function call to another.
+        // information from one function call to another.
         result = func.apply(this, arguments);
         alreadyCalled = true;
       }
@@ -338,6 +338,21 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    //collection of unique argument lists and their results for function {[result]: arguments}
+    var resultCol = [];
+    var argsList = [];
+
+    return function() {
+      
+
+
+      if (_.indexOf(argsList, JSON.stringify(arguments)) === -1) {
+        argsList.push(JSON.stringify(arguments));
+        resultCol.push(func.apply(this, arguments));
+      }
+      
+      return resultCol[_.indexOf(argsList, JSON.stringify(arguments))];
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
